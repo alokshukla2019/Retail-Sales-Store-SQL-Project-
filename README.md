@@ -49,7 +49,7 @@ CREATE DATABASE SQL_PROJECT_P2;
 USE SQL_PROJECT_P2;
 
 **--- Create Table**
-
+```sql
 CREATE TABLE retail_sales_tb
              (
                transactions_id INT PRIMARY KEY,
@@ -64,7 +64,8 @@ CREATE TABLE retail_sales_tb
                cogs	FLOAT,
                total_sale FLOAT
                );
-               
+ ```
+
 SELECT * FROM retail_sales_tb
 ;
 
@@ -93,30 +94,32 @@ WHERE category is null
     OR cogs is null
     OR total_sale is null;
     
-** --- Data Exploaration **  
+**Data Exploaration**  
  
- --- How many Total sales we have?
+ **How many Total sales we have?**
  
 SELECT COUNT(*) AS Total_sales FROM retail_sales_tb;
     
- ****--- How many customers we have?
+ **How many customers we have?**
  
-SELECT COUNT(distinct customer_id) AS Unique_customer_count FROM retail_sales_tb;
+SELECT COUNT(distinct customer_id) AS Unique_customer_count
+FROM retail_sales_tb;
 
-SELECT COUNT(distinct category) AS Unique_category FROM retail_sales_tb;
+SELECT COUNT(distinct category) AS Unique_category 
+FROM retail_sales_tb;
   
 
----** Data Analysis & Business Key Problems & Answers**
+---**Data Analysis & Business Key Problems & Answers**
 
---- Sales Performance Analysis
+--- *Sales Performance Analysis*
 
--- Q.1 Write a SQL query to retrieve all columns for sales made on '2022-11-05
+**Write a SQL query to retrieve all columns for sales made on '2022-11-05.**
 
 SELECT * 
 FROM retail_sales_tb
 WHERE sale_date = '2022-11-05';
 
--- Q.2 Write a SQL query to retrieve all transactions where the category is 'Clothing' and the quantity sold is more than 10 in the month of Nov-2022
+**Q.2 Write a SQL query to retrieve all transactions where the category is 'Clothing' and the quantity sold is more than 10 in the month of Nov-2022.**
 
 SELECT *
 FROM retail_sales_tb
@@ -125,7 +128,7 @@ WHERE Category = 'Clothing'
   AND sale_date >= '2022-11-01'
   AND sale_date < '2022-12-01';
 
--- Q3- Which category generated the highest revenue?
+**Q3- Which category generated the highest revenue?**
 
 SELECT category , 
 	   SUM(total_sale) AS Total_sales
@@ -134,7 +137,7 @@ GROUP BY Category
 ORDER BY Total_sales DESC
 LIMIT 1 ;
 
--- Q.4 Write a SQL query to calculate the total sales (total_sale) for each category.
+**Q.4 Write a SQL query to calculate the total sales (total_sale) for each category.**
 
 SELECT Category, 
       SUM(total_sale) AS Category_wise_sale
@@ -142,19 +145,19 @@ FROM  retail_sales_tb
 GROUP BY Category
 ORDER BY Category_wise_sale DESC;
 
--- Q.5 Write a SQL query to find the average age of customers who purchased items from the 'Beauty' category.
+**Q.5 Write a SQL query to find the average age of customers who purchased items from the 'Beauty' category.**
 
 SELECT ROUND(AVG(age) , 2) AS Average_Age
 FROM retail_sales_tb  
 WHERE Category = 'Beauty';
 
--- Q.6 Write a SQL query to find all transactions where the total_sale is greater than 1000.
+**Q.6 Write a SQL query to find all transactions where the total_sale is greater than 1000.**
 
 SELECT *    
 FROM retail_sales_tb 
 WHERE total_sale > 1000;     
     
--- Q.7 Write a SQL query to find the total number of transactions (transaction_id) made by each gender in each category.
+**Q.7 Write a SQL query to find the total number of transactions (transaction_id) made by each gender in each category.**
 
 SELECT Category,
        gender, 
@@ -163,7 +166,7 @@ FROM  retail_sales_tb
 GROUP BY Category , gender
 ORDER BY Category, gender;
 
--- Q.8- Which category sold the highest quantity?
+**Q.8- Which category sold the highest quantity?**
 
 SELECT category , 
 	   COUNT(quantiy) AS Total_qty
@@ -172,7 +175,7 @@ GROUP BY Category
 ORDER BY Total_qty DESC
 LIMIT 1 ;
 
--- Q.9- What is the average order value for each category?
+**Q.9- What is the average order value for each category?**
 
 SELECT category,
        ROUND(AVG(total_sale)) AS Avg_order_Value
@@ -180,7 +183,7 @@ FROM retail_sales_tb
 GROUP BY category
 ORDER BY Avg_order_Value DESC;      
 
--- Q.10- Which category has the highest profit (using total_sale - cogs)?
+**Q.10- Which category has the highest profit (using total_sale - cogs)?**
 
 SELECT category,
       ROUND(SUM(total_sale - cogs)) AS Total_Profit
@@ -189,7 +192,7 @@ GROUP BY category
 ORDER BY Total_Profit DESC
 LIMIT 1;       
 
--- Q.11- Which category has the highest average selling price?
+**Q.11- Which category has the highest average selling price?**
 
 SELECT category,
       ROUND(AVG(price_per_unit)) AS Average_Sale_Price
@@ -199,12 +202,12 @@ ORDER BY Average_Sale_Price DESC
 LIMIT 1;  
 
 
--- Q.12- How many unique customers made purchases?
+**Q.12-How many unique customers made purchases?**
 
 SELECT COUNT(DISTINCT(customer_id)) AS Unique_customer
 FROM retail_sales_tb;
 
--- Q.13- Which customer spent the most?
+**Q.13- Which customer spent the most?**
 
 SELECT customer_id,
        SUM(total_sale) AS Total_spent
@@ -213,7 +216,7 @@ GROUP BY customer_id
 ORDER BY Total_spent DESC
 LIMIT 1;
 
--- Q.14- Top 10 customers by revenue.
+**Q.14- Top 10 customers by revenue.**
 
 SELECT customer_id,
        SUM(total_sale) AS Total_Revenue
@@ -222,7 +225,7 @@ GROUP BY customer_id
 ORDER BY Total_Revenue DESC
 LIMIT 10;
 
--- Q.15- Which customer purchased the most items?
+**Q.15- Which customer purchased the most items?**
 
 SELECT customer_id, 
 	   SUM(quantiy) AS Most_purchase
@@ -231,7 +234,7 @@ GROUP BY customer_id
 ORDER BY Most_purchase
 LIMIT 1;
 
--- Q 16- Repeat customers (customers with more than one purchase).
+**Q 16- Repeat customers (customers with more than one purchase).**
 
 SELECT customer_id,
        COUNT(*) AS Total_Purchase
@@ -240,7 +243,7 @@ GROUP BY  customer_id
 HAVING COUNT(*) > 1
 ORDER BY Total_Purchase DESC;
 
--- Q.17- Customers who purchased from multiple categories.
+**Q.17- Customers who purchased from multiple categories.**
 
 SELECT customer_id,
        COUNT(DISTINCT Category) AS Category_wise_Purchase
@@ -250,7 +253,7 @@ HAVING COUNT(DISTINCT Category) > 1
 ORDER BY Category_wise_Purchase DESC , customer_id;
 
 
--- Q.18- Revenue by gender?
+**Q.18- Revenue by gender?**
 
 SELECT gender, 
        SUM(total_sale) AS Total_Revenue
@@ -258,7 +261,7 @@ FROM retail_sales_tb
 GROUP BY gender
 ORDER BY Total_Revenue DESC;
 
--- Q.19- Average purchase amount by gender?
+**Q.19- Average purchase amount by gender?**
 
 SELECT gender, 
        ROUND (AVG(total_sale)) AS Avg_Purchase_genderwise
@@ -266,7 +269,7 @@ FROM retail_sales_tb
 GROUP BY gender
 ORDER BY  Avg_Purchase_genderwise DESC;
 
--- Q.20 Write a SQL query to calculate the average sale for each month. Find out best selling month in each year
+**Q.20 Write a SQL query to calculate the average sale for each month. Find out best selling month in each year**
 
 SELECT Year(sale_date) AS Year,
        MONTH(sale_date) AS Month,
@@ -275,7 +278,7 @@ FROM retail_sales_tb
 GROUP BY  Year(sale_date) , MONTH(sale_date)
 ORDER BY Year , month;      
 
--- Q.21 Write a SQL query to create each shift and number of orders (Example Morning <=12, Afternoon Between 12 & 17, Evening >17)
+**Q.21 Write a SQL query to create each shift and number of orders (Example Morning <=12, Afternoon Between 12 & 17, Evening >17)**
 
 WITH Hourly_Sale  AS
      ( SELECT * , 
@@ -292,5 +295,5 @@ FROM Hourly_Sale
 GROUP BY Shift;   
       
      
--- END OF PROJECT
+***END OF PROJECT***
 
